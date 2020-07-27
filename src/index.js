@@ -10,8 +10,8 @@ import App from './components/App'
 import store from "./store";
 import { logoutUser, setCurrentUser} from "./store/actions/authActions";
 
-
 const jwt = jsCookie.get('jwt')
+
 if (jwt) {
   const decoded = jwtDecode(jwt)
   store.dispatch(setCurrentUser(decoded))
@@ -23,7 +23,6 @@ if (jwt) {
     window.location.href = '/login'
   }
 }
-
 
 ReactDOM.render(
   <React.StrictMode>

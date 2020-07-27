@@ -3,7 +3,6 @@ import { useDispatch } from 'react-redux'
 import { useHistory } from "react-router";
 
 import { addPost } from '../../store/actions/postActions'
-import withAuth from "../../hoc/withAuth";
 
 const AddPost = () => {
   const dispatch = useDispatch()
@@ -49,4 +48,4 @@ const AddPost = () => {
   )
 }
 
-export default withAuth((AddPost))
+export default AddPost

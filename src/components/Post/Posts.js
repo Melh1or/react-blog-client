@@ -2,8 +2,8 @@ import React, { useEffect}  from "react"
 import { useDispatch, useSelector } from "react-redux";
 
 import { getPosts } from "../../store/actions/postActions";
-import Spinner from "../Spinner/Spinner";
-import Post from "../Post/Post";
+import Spinner from "../Layout/Spinner";
+import Post from "./Post";
 
 const Posts = () => {
   const dispatch = useDispatch()

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from 'react-router'
+import { Redirect, useHistory, useParams} from 'react-router'
 import { Link } from "react-router-dom";
 import Moment from "react-moment";
 
 import { deletePost, getPost } from "../../store/actions/postActions";
-import Spinner from "../Spinner/Spinner";
-import AddComment from "../AddComent/AddComment";
+import Spinner from "../Layout/Spinner";
+import AddComment from "../Comments/AddComment";
 import Comments from "../Comments/Comments";
 
 const PostPage = () => {
@@ -16,6 +16,7 @@ const PostPage = () => {
 
   const post = useSelector(state => state.post.post)
   const user = useSelector(state => state.auth.user)
+  const error = useSelector(state => state.error)
 
   useEffect(() => {
     dispatch(getPost(id, history))
@@ -42,6 +43,7 @@ const PostPage = () => {
     </div>
   )
 
+  if(error) return <Redirect to={'/'} />
   if(!post) return <Spinner />
 
   return (

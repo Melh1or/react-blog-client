@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useHistory, useParams } from "react-router";
 
 import { editPost, getPost } from '../../store/actions/postActions'
-import Spinner from "../Spinner/Spinner";
+import Spinner from "../Layout/Spinner";
 
 const EditPost = () => {
   const dispatch = useDispatch()
