@@ -1,13 +1,16 @@
-import React, {useEffect} from "react"
-import { connect } from "react-redux";
+import React, { useEffect}  from "react"
+import { useDispatch, useSelector } from "react-redux";
 
 import { getPosts } from "../../store/actions/postActions";
 import Spinner from "../Spinner/Spinner";
 import Post from "../Post/Post";
 
-const Posts = ({ posts, getPosts }) => {
+const Posts = () => {
+  const dispatch = useDispatch()
+  const posts = useSelector(state => state.post.posts)
+
   useEffect(() => {
-    getPosts()
+    dispatch(getPosts())
   }, [])
 
   if(!posts) return <Spinner />
@@ -19,12 +22,4 @@ const Posts = ({ posts, getPosts }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  posts: state.post.posts
-})
-
-const mapDispatchToProps = {
-  getPosts
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Posts)
+export default Posts

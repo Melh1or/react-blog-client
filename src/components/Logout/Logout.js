@@ -1,11 +1,15 @@
-import React, {useEffect} from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router";
 
 import { logoutUser } from "../../store/actions/authActions";
 
-const Logout = ({ logoutUser, history }) => {
+const Logout = () => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+
   useEffect(() => {
-    logoutUser()
+    dispatch(logoutUser())
     history.push('/login')
   }, [])
 
@@ -14,8 +18,4 @@ const Logout = ({ logoutUser, history }) => {
   )
 }
 
-const mapDispatchToProps = {
-  logoutUser
-}
-
-export default connect(null, mapDispatchToProps)(Logout)
+export default Logout

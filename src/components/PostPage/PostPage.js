@@ -1,28 +1,28 @@
-import React, {useEffect} from 'react';
-import {connect} from "react-redux";
-import { useParams } from 'react-router'
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, useParams } from 'react-router'
+import { Link } from "react-router-dom";
+import Moment from "react-moment";
 
-import {deletePost, getPost} from "../../store/actions/postActions";
+import { deletePost, getPost } from "../../store/actions/postActions";
 import Spinner from "../Spinner/Spinner";
-import {Link} from "react-router-dom";
 import AddComment from "../AddComent/AddComment";
 import Comments from "../Comments/Comments";
 
-const PostPage = ({ post, getPost, user, deletePost, history }) => {
+const PostPage = () => {
+  const history = useHistory()
+  const dispatch = useDispatch()
   const { id } = useParams()
 
+  const post = useSelector(state => state.post.post)
+  const user = useSelector(state => state.auth.user)
+
   useEffect(() => {
-    getPost(id, history)
+    dispatch(getPost(id, history))
   }, [])
 
-  if(!post) return <Spinner />
-
   const deleteHandler = () => {
-    deletePost(id, history)
-  }
-
-  const editHandler = () => {
-
+    dispatch(deletePost(id, history))
   }
 
   const buttons = (
@@ -42,27 +42,22 @@ const PostPage = ({ post, getPost, user, deletePost, history }) => {
     </div>
   )
 
+  if(!post) return <Spinner />
+
   return (
     <div>
-      <h1>{post.title}</h1>
+      <div className="d-flex justify-content-between align-items-center">
+        <h1>{post.title}</h1>
+        <Moment className="text-muted" format="LTS">{post.date}</Moment>
+      </div>
       <p className="text-muted">{post.author.name}</p>
       <p>{post.text}</p>
       { user && user.id === post.author._id && buttons }
-
+      <hr />
       <AddComment />
       <Comments comments={post.comments} />
     </div>
   );
 }
 
-const mapStateToProps = state => ({
-  user: state.auth.user,
-  post: state.post.post
-})
-
-const mapDispatchToProps = {
-  getPost,
-  deletePost
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(PostPage);
+export default PostPage

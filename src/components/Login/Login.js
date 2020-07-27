@@ -1,21 +1,28 @@
-import React, {useEffect, useState} from 'react';
-import { connect } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import {useHistory} from "react-router";
 
 import { loginUser } from "../../store/actions/authActions";
 import { clearErrors } from "../../store/actions/errorActions";
 
-const Login = ({ user, loginUser, error, history, clearErrors }) => {
+const Login = () => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  const user = useSelector(state => state.auth.user)
+  const error = useSelector(state => state.error)
+
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
 
   const onSubmit = e => {
     e.preventDefault()
 
-    loginUser({ email, password })
+    dispatch(loginUser({ email, password }))
   }
 
   useEffect(() => {
-    clearErrors()
+    dispatch(clearErrors())
     if(user) {
       history.push('/')
     }
@@ -53,14 +60,4 @@ const Login = ({ user, loginUser, error, history, clearErrors }) => {
   );
 }
 
-const mapStateToProps = state => ({
-  user: state.auth.user,
-  error: state.error
-})
-
-const mapDispatchToProps = {
-  loginUser,
-  clearErrors
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login)
+export default Login
