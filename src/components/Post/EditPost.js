@@ -1,30 +1,35 @@
 import React, {createRef, useEffect, useState} from 'react';
-import { connect } from 'react-redux'
-import {useParams} from "react-router";
+import { useDispatch, useSelector } from 'react-redux'
+import { useHistory, useParams } from "react-router";
 
-import {editPost, getPost} from '../../store/actions/postActions'
-import Spinner from "../Spinner/Spinner";
+import { editPost, getPost } from '../../store/actions/postActions'
+import Spinner from "../Layout/Spinner";
 
-const EditPost = ({ editPost, getPost, post, history }) => {
+const EditPost = () => {
+  const dispatch = useDispatch()
+  const history = useHistory()
   const { id } = useParams()
+
+  const post = useSelector(state => state.post.post)
+
   const titleRef = createRef();
   const textRef = createRef();
 
   const onSubmit = e => {
     e.preventDefault()
 
-    editPost(
+    dispatch(editPost(
       id,
       {
         title: titleRef.current.value,
         text: textRef.current.value
       },
       history
-    )
+    ))
   }
 
   useEffect(() => {
-    getPost(id)
+    dispatch(getPost(id))
   }, [])
 
   if(!post) return <Spinner />
@@ -60,13 +65,4 @@ const EditPost = ({ editPost, getPost, post, history }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  post: state.post.post
-})
-
-const mapDispatchToProps = {
-  editPost,
-  getPost
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(EditPost);
+export default EditPost

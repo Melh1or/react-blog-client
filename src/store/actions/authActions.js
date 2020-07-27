@@ -7,7 +7,8 @@ export const loginUser = data => async dispatch => {
     const res = await axios.post('/api/users/login', data)
     dispatch({
       type: actions.SET_USER,
-      payload: res.data.user })
+      payload: res.data.user
+    })
   } catch(err) {
     dispatch({
       type: actions.ERROR,
@@ -21,7 +22,8 @@ export const registerUser = data => async dispatch => {
     const res = await axios.post('/api/users/register', data)
     dispatch({
       type: actions.SET_USER,
-      payload: res.data.user })
+      payload: res.data.user
+    })
   } catch(err) {
     dispatch({
       type: actions.ERROR,

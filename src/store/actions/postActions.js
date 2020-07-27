@@ -11,7 +11,7 @@ export const getPosts = () => async dispatch => {
   } catch(err) {
     dispatch({
       type: actions.ERROR,
-      payload: err.res.data
+      payload: err.response.data
     })
   }
 }
@@ -27,7 +27,7 @@ export const getPost = (id) => async dispatch => {
     console.log(err)
     dispatch({
       type: actions.ERROR,
-      payload: err.res
+      payload: err.response.data
     })
   }
 }
@@ -94,7 +94,6 @@ export const addComment = (id, text) => async dispatch => {
     })
   }
 }
-
 
 export const deleteComment = (id) => async dispatch => {
   try {

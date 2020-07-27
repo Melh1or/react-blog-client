@@ -1,10 +1,13 @@
 import React from 'react';
-import {connect} from "react-redux";
-import {deleteComment} from "../../store/actions/postActions";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteComment } from "../../store/actions/postActions";
 
-const Comment = ({ comment, user, deleteComment }) => {
+const Comment = ({ comment }) => {
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.auth.user)
+
   const onDelete = () => {
-    deleteComment(comment._id)
+    dispatch(deleteComment(comment._id))
   }
 
   return (
@@ -21,12 +24,4 @@ const Comment = ({ comment, user, deleteComment }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  user: state.auth.user
-})
-
-const mapDispatchToProps = {
-  deleteComment
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Comment)
+export default Comment

@@ -1,16 +1,19 @@
-import React, {useState} from 'react';
-import { connect } from "react-redux";
+import React, { useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router";
 import { addComment } from "../../store/actions/postActions";
 
-const AddComment = ({ user, addComment }) => {
+const AddComment = () => {
+  const dispatch = useDispatch()
+  const user = useSelector(state => state.auth.user)
   const { id } = useParams()
+
   const [text, setText] = useState('');
 
   const onSubmit = e => {
     e.preventDefault()
-    addComment(id, text)
+    dispatch(addComment(id, text))
     setText('')
   }
 
@@ -34,12 +37,5 @@ const AddComment = ({ user, addComment }) => {
   )
 }
 
-const mapStateToProps = state => ({
-  user: state.auth.user
-})
 
-const mapDispatchToProps = {
-  addComment
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AddComment)
+export default AddComment

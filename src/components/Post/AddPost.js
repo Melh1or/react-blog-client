@@ -1,17 +1,20 @@
 import React, { useState } from 'react';
-import { connect } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useHistory } from "react-router";
 
 import { addPost } from '../../store/actions/postActions'
-import withAuth from "../../hoc/withAuth";
 
-const AddPost = ({ addPost, history }) => {
+const AddPost = () => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
 
   const onSubmit = e => {
     e.preventDefault()
 
-    addPost({ title, text }, history)
+    dispatch(addPost({ title, text }, history))
   }
 
   return (
@@ -45,8 +48,4 @@ const AddPost = ({ addPost, history }) => {
   )
 }
 
-const mapDispatchToProps = {
-  addPost
-}
-
-export default withAuth(connect(null, mapDispatchToProps)(AddPost))
+export default AddPost

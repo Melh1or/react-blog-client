@@ -1,10 +1,17 @@
-import React, {useEffect, useState} from 'react';
-import { connect } from "react-redux";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router";
 
 import { registerUser } from "../../store/actions/authActions";
 import { clearErrors } from "../../store/actions/errorActions";
 
-const Register = ({ user, registerUser, error, history, clearErrors }) => {
+const Register = () => {
+  const dispatch = useDispatch()
+  const history = useHistory()
+
+  const user = useSelector(state => state.auth.user)
+  const error = useSelector(state => state.error)
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -13,11 +20,11 @@ const Register = ({ user, registerUser, error, history, clearErrors }) => {
   const onSubmit = e => {
     e.preventDefault()
 
-    registerUser({ name, email, password, password2 })
+    dispatch(registerUser({ name, email, password, password2 }))
   }
 
   useEffect(() => {
-    clearErrors()
+    dispatch(clearErrors())
 
     if(user) {
       history.push('/')
@@ -79,14 +86,4 @@ const Register = ({ user, registerUser, error, history, clearErrors }) => {
   );
 }
 
-const mapStateToProps = state => ({
-  user: state.auth.user,
-  error: state.error
-})
-
-const mapDispatchToProps = {
-  registerUser,
-  clearErrors
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Register)
+export default Register
